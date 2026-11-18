@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "macrostitch"
+version = "0.1.0"
+description = "Content-cached focus stacking from macro focus-rack videos"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["numpy>=2,<3", "opencv-python-headless>=4.10,<6", "scipy>=1.13,<2", "fastapi>=0.115,<1", "uvicorn>=0.30,<1", "tifffile>=2025,<2027"]
+
+[project.optional-dependencies]
+test = ["pytest>=8", "httpx>=0.27"]
+
+[project.scripts]
+macrostitch = "macrostitch.api:main"
+
+[tool.setuptools.packages.find]
+include = ["macrostitch*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Synthetic videos and image caches can be large. Remove passing tests' tmp_path
+# data immediately and retain at most one completed run's failed-test artifacts.
+tmp_path_retention_policy = "failed"
+tmp_path_retention_count = 1
